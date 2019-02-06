@@ -11,23 +11,31 @@ require 'rails_helper'
 
 feature "Alternate Fuel Station Search" do
   context "visiting root - filling out form and clicking 'locate'" do
+    let(:facade) { StationFacade.new("80203") }
     before :each do
       visit root_path
       fill_in :q, with: "80203"
       click_button "Locate"
 
-      # GET /api/alt-fuel-stations/v1/nearest.format?parameters
-      # GET /api/alt-fuel-stations/v1/nearest.json?
-        # api_key: T9CX2T4WAL0dvwRGpcXJEDc4IYw9IjWVFoK6bEXp (string)
-        # location: 80203 (string)
-        # radius : 6.0 (dec or string)
-        
+      VCR.use_cassette("alt-fuel-stations/v1/nearest.json") do
+        @stations = facade.get_stations
+      end
     end
     it 'redirects to search_path' do
       expect(current_path).to eq(search_path)
     end
     it 'shows 10 closests stations sorted by distance' do
+      expect(page).to have_css(".station", count: 10)
       expect(all('.station')[0]).to have_content()
+      expect(all('.station')[1]).to have_content()
+      expect(all('.station')[2]).to have_content()
+      expect(all('.station')[3]).to have_content()
+      expect(all('.station')[4]).to have_content()
+      expect(all('.station')[5]).to have_content()
+      expect(all('.station')[6]).to have_content()
+      expect(all('.station')[7]).to have_content()
+      expect(all('.station')[8]).to have_content()
+      expect(all('.station')[9]).to have_content()
     end
   end
 end
