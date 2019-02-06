@@ -24,6 +24,7 @@ feature "Alternate Fuel Station Search" do
     it 'redirects to search_path' do
       expect(current_path).to eq(search_path)
     end
+    # sort by distance using ruby -- Assert its the same order as @stations
     it 'shows 10 closests stations sorted by distance' do
       expect(page).to have_css(".station", count: 10)
       expect(all('.station')[0]).to have_content()
