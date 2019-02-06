@@ -18,7 +18,7 @@ feature "Alternate Fuel Station Search" do
       click_button "Locate"
 
       VCR.use_cassette("alt-fuel-stations/v1/nearest.json") do
-        @stations = facade.get_stations
+        @stations = facade.get_stations(radius: "6.0", )
       end
     end
     it 'redirects to search_path' do
